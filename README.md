@@ -11,6 +11,8 @@ This project consists of multiple separate problems, each involving different fu
 - **run_procs.asm**: Implements the logic for managing and running processes.
 - **sort_procs.asm**: Contains the sorting logic for processes, potentially ordering them based on priority, PID, or other parameters.
 - **checkers.asm**: Implements the checkers game, including the game board, piece movement, and win condition.
+- **reverse_vowels.asm**: Implements the logic for reversing vowels in a string.
+- **pwd.asm**: Simulates the `pwd` command to print the current working directory.
 
 ## Problem Details
 
@@ -38,4 +40,16 @@ The `checkers.asm` file contains the logic for the checkers game, including:
 - Validating moves.
 - Handling player turns and game logic.
 - Checking for win conditions and game-ending scenarios.
+
+### Problem 3: Reverse Vowels in a String
+The `reverse_vowels.asm` file implements a solution for the problem of reversing vowels in a string. This could involve:
+
+- Identifying vowels in the string (typically, `a`, `e`, `i`, `o`, `u`).
+- Swapping the positions of the vowels while keeping the positions of non-vowel characters unchanged.
+
+### Problem 4: Print Working Directory (pwd)
+The `pwd.asm` file simulates the functionality of the Unix `pwd` command. This problem involves:
+
+- Retrieving the current working directory.
+- Displaying the directory path to the user, similar to how the `pwd` command works in a Unix-like terminal.
 
