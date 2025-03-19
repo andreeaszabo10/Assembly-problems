@@ -42,9 +42,9 @@ The `checkers.asm` file contains the logic for the checkers game, including:
 - Checking for win conditions and game-ending scenarios.
 
 ### Problem 3: Reverse Vowels in a String
-The `reverse_vowels.asm` file implements a solution for the problem of reversing vowels in a string. This could involve:
+The `reverse_vowels.asm` file implements a solution for the problem of reversing vowels in a string. This involves:
 
-- Identifying vowels in the string (typically, `a`, `e`, `i`, `o`, `u`).
+- Identifying vowels in the string
 - Swapping the positions of the vowels while keeping the positions of non-vowel characters unchanged.
 
 ### Problem 4: Print Working Directory (pwd)
