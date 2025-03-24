@@ -15,29 +15,32 @@ simple:
     mov     edi, [ebp + 16] ; enc_string
     mov     edx, [ebp + 20] ; step
 
-;; initializez un contor
-	mov ebx, 0
+;; counter
+    mov ebx, 0
 
-;; iau urmatorul caracter din sir si verific ce fac cu el 
+;; get and check the first character
 get:
-    ;; verific daca trebuie sa ies din loop
+;; exit loop
     cmp ecx, ebx
     jle end
-    ;; iau urmatorul caracter si ii adun valoarea data
+
+;; take the next character and add it's value
     mov al, [ebx + esi]
     add al, dl
-;; pun in vector litera corespunzatoare
+
+;; put the corresponding letter in the array
 put:
-    ;; verific daca in al este o litera sau nu
+;; check if it's a letter
     mov [ebx + edi], al
-    ;; daca nu e litera scad 26 si verific iar pana e ok
+;; if it is not, subtract 26 until the value corresponds to a letter
     cmp al, 90
     jg subtract
-    ;; adaug 1 la contor si trec la urmatorul caracter
+
+;; increment the counter and check the next character
     add ebx, 1
     jmp get
 
-;; scad 26 daca valoarea este prea mare, adica nu e litera
+;; subtract 26 if it is not a letter
 subtract:
     sub al, 26
     jmp put
