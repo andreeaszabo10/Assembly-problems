@@ -17,7 +17,7 @@ checkers:
     push ebx
     mov ebx, 0
 
-;; umplu matricea cu 0
+;; fill the matrix with 0
 zeros:
     cmp ebx, 64
     jge bottom_left_corner
@@ -25,80 +25,87 @@ zeros:
     add ebx, 1
     jmp zeros
 
-;; cazul pentru coltul din stanga jos
+;; bottom left corner case
 bottom_left_corner:
     pop ebx
+
     cmp eax, 0
     jne top_left_corner
+
     cmp ebx, 0
     jne bottom_right_corner
-    ;; gasesc adresa potrivita si pun 1 in matrice
+
+;; find the right address, then mark it with 1 in the matrix
     add eax, 1
     add ebx, 1
     lea edi, [eax*8 + ebx]
     mov dword [ecx + edi], 1
     jmp end
 
-;; cazul pentru coltul din stanga sus
+;; top left corner case
 top_left_corner:
     cmp eax, 7
     jne bit_left_down
+
     cmp ebx, 0
     jne top_right_corner
-    ;; gasesc adresa potrivita si pun 1 in matrice
+
+;; find the right address, then mark it with 1 in the matrix
     sub eax, 1
     add ebx, 1
     lea edi, [eax*8 + ebx]
     mov dword [ecx + edi], 1
     jmp end
 
-;; cazul pentru coltul din dreapta jos
+;; bottom right corner case
 bottom_right_corner:
     cmp ebx, 7
     jne bit_left_down
-    ;; gasesc adresa potrivita si pun 1 in matrice
+    
+;; find the right address, then mark it with 1 in the matrix
     add eax, 1
     sub ebx, 1
     lea edi, [eax*8 + ebx]
     mov dword [ecx + edi], 1
     jmp end
 
-;; cazul pentru coltul din dreapta sus
+;; top right corner case
 top_right_corner:
     cmp ebx, 7
     jne bit_left_down
-    ;; gasesc adresa potrivita si pun 1 in matrice
+
+;; find the right address, then mark it with 1 in the matrix
     sub eax, 1
     sub ebx, 1
     lea edi, [eax*8 + ebx]
     mov dword [ecx + edi], 1
     jmp end
 
-;; pun bitul din stanga jos daca trebuie
+;; check the diagonal down-left space
 bit_left_down:
-
-    ;; daca se afla pe linia de jos sau prima coloana, sare peste
+;; jump over if the current position is on the first column or the bottom row
     cmp eax, 0
     je bit_right_down
+
     cmp ebx, 0
     je bit_right_down
-    ;; pun bitul la pozitia buna, scad ca sa gasesc linia si coloana
+
+    ;; subtract 1 from both coordinates to get the right position
     sub eax, 1
     sub ebx, 1
-    ;; instructiune pentru ca nu pot sa pun 3 registri la adresa
     lea edi, [eax*8 + ebx]
     mov dword [ecx + edi], 1
     add eax, 1
     add ebx, 1
 
-;; pun bitul din dreapta jos daca trebuie
+;; check the diagonal down-right space
 bit_right_down:
-    ;; daca e pe linia de jos sau ultima coloana sar
+;; jump over if the current position is on the last column or the bottom row
     cmp eax, 0
     je bit_left_up
     cmp ebx, 7
     je bit_left_up
-;; pun 1 la pozitia calculata scazand 1 din linie si adunand 1 la coloana
+;; subtract 1 from x and add 1 to y to get the right position
     sub eax, 1
     add ebx, 1
     lea edi, [eax*8 + ebx]
@@ -106,14 +113,14 @@ bit_right_down:
     sub ebx, 1
     add eax, 1
 
-;; pun bitul din stanga sus daca trebuie
+;; check the diagonal up-left space
 bit_left_up:
-    ;; daca e pe linia de sus sau prima coloana sar
+;; jump over if the current position is on the first column or the top row
     cmp eax, 7
     je bit_right_up
     cmp ebx, 0
     je bit_right_up
-;; pun 1 la pozitia calculata adunand 1 la linie si scazand 1 din coloana
+;; subtract 1 from y and add 1 to x to get the right position
     sub ebx, 1
     add eax, 1
     lea edi, [eax*8 + ebx]
@@ -121,14 +128,14 @@ bit_left_up:
     sub eax, 1
     add ebx, 1
 
-;; pun bitul din dreapta sus daca trebuie
+;; check the diagonal up-right space
 bit_right_up:
-    ;; daca se afla pe linia de sus sau ultima coloana sar
+;; jump over if the current position is on the last column or the top row
     cmp eax, 7
     je end
     cmp ebx, 7
     je end
-;; pun 1 la pozitia calculata adunand 1 la linie si adunand 1 la coloana
+;; add 1 to both coordinates to get the right position
     add eax, 1
     add ebx, 1
     lea edi, [eax*8 + ebx]
