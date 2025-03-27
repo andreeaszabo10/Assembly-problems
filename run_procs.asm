@@ -1,8 +1,5 @@
 %include "../include/io.mac"
 
-    ;;
-    ;;   TODO: Declare 'avg' struct to match its C counterpart
-    ;;
 struc avg
     .quo: resw 1
     .remain: resw 1
@@ -14,7 +11,6 @@ struc proc
     .time: resw 1
 endstruc
 
-    ;; Hint: you can use these global arrays
 section .data
     prio_result dd 0, 0, 0, 0, 0
     time_result dd 0, 0, 0, 0, 0
@@ -24,7 +20,6 @@ section .text
     extern printf
 
 run_procs:
-    ;; DO NOT MODIFY
 
     push ebp
     mov ebp, esp
@@ -43,17 +38,14 @@ clean_results:
     mov ecx, [ebp + 8]      ; processes
     mov ebx, [ebp + 12]     ; length
     mov eax, [ebp + 16]     ; proc_avg
-    ;; DO NOT MODIFY
-   
-    ;; Your code starts here
 
     mov edi, 0
-;; fac aceasta operatie pentru toate procesele
+;; perform this operation for all processes
 outer:
     cmp edi, ebx
     jg end
     mov edx, 0
-    ;; verific prioritatea procesului
+    ;; check the priority of the process
     mov dl, byte [ecx + proc.prio]
     cmp dl, 1
     je add1
@@ -65,34 +57,34 @@ outer:
     je add4
     cmp dl, 5
     je add5
-;; procesul de aflare a elementelor vectorilor
+;; process of finding elements in the vectors
 process:
     add edi, 1
     lea ecx, [ecx + 5]
     jmp outer
 
-;; pentru fiecare prioritate am alt caz in care cresc numarul de
-;; componente pentru respectiva prioritate in vectorul prio_result
-;; si adun timpul la pozitia potrivita in vectorul time_result
-;; calculez pozitia in vector adunand cate inmultind 4 cu pozitia dorita
+;; for each priority, I have a different case where I increase the number of
+;; components for the respective priority in the prio_result vector
+;; and add the time at the appropriate position in the time_result vector
+;; calculate the position in the vector by adding 4 times the desired position
 add1:
-    ;; pun vectorul prio intr un registru
+    ;; put the prio vector in a register
     mov edx, prio_result
-    ;; iau adresa de la pozitia cautata
+    ;; get the address of the position being sought
     mov esi, [edx]
-    ;; adaug 1 ptr ca am mai gasit un element cu aceasta prioritate
+    ;; add 1 since I found another element with this priority
     add esi, 1
-    ;; pun la loc valoarea
+    ;; put the value back
     mov [edx], esi
-    ;; pun vectorul prio intr un registru
+    ;; put the prio vector in a register
     mov edx, time_result
-    ;; adun timpul la valoarea anterioara din vector
+    ;; add the time to the previous value in the vector
     mov esi, [edx]
     add esi, [ecx + proc.time]
     mov [edx], esi
     jmp process
 
-;; fac acelasi lucru pentru urmatoarele cazuri, doar ca adun cate 4 ptr fiecare
+;; do the same thing for the next cases, just adding 4 for each
 add2:
     mov edx, prio_result
     mov esi, [edx + 4]
@@ -134,21 +126,21 @@ add5:
     mov [edx + 16], esi
     jmp process
 
-;; adaug valorile finale in structura avg
-;; la fel am 5 cazuri, o sa scriu doar pentru unul
+;; add the final values in the avg structure
+;; there are 5 cases like this, I'll write just for one
 end:
     push eax
-    ;; pun vectorii in registrii
+    ;; put the vectors in registers
     mov ebx, prio_result
     mov ecx, time_result
-    ;; iau valorile pentru prima prioritate
+    ;; get the values for the first priority
     mov bx, word [ebx]
     mov ax, word [ecx]
     mov edx, 0
-    ;; daca impartitorul e 0 sar peste imparire si pun 0 direct
+    ;; if the divisor is 0, skip division and set 0 directly
     cmp bx, 0
     je no1
-    ;; fac impartirea
+    ;; perform the division
     div bx
     mov bx, ax
     jmp avg1
@@ -156,10 +148,10 @@ no1:
     mov dx, 0
 avg1:
     pop eax
-    ;; pun valorile gasite in structura avg
+    ;; put the found values in the avg structure
     mov [eax + avg.quo], bx
     mov [eax + avg.remain], dx
-    ;; adaug 4 la adresa si trec la urmatoarea prioritate
+    ;; add 4 to the address and move to the next priority
     add eax, 4
     push eax
     mov ebx, prio_result
@@ -233,10 +225,6 @@ avg5:
     mov [eax + avg.quo], bx
     mov [eax + avg.remain], dx
 
-    ;; Your code ends here
-    
-    ;; DO NOT MODIFY
     popa
     leave
     ret
-    ;; DO NOT MODIFY
